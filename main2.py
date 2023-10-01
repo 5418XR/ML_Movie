@@ -1,7 +1,7 @@
 import os
 
 # 设置环境变量
-os.environ['REPLICATE_API_TOKEN'] = 'r8_NiQUkfPPzgvq2JZqtBxEpTiCQ62UQpu2MOgVp'
+os.environ['REPLICATE_API_TOKEN'] = 'add your API key here'
 
 
 
