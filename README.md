@@ -24,17 +24,21 @@ This zip file contains scripts (with .script extension), subtitles (with .srt ex
 ### Set-up for frame scene data
 
 1. Change directory to where you have the below directory.
-   ```
+   ```bash
    movie1K.keyframes.240p.v1
    ```
 2. Run the python code `moveFrameFiles.py`
-   ```
+   ```bash
    python ./moveFrameFiles.py
    ```
-3. Merge with other datasets from the above link.
-- **dataset/**
-  - **framescene/**
-  - **meta/**
-  - **scripts/**
-  - **subtitles/**
+   Make sure you also have `film_list.txt` file on the same directory with `moveFrameFiles.py`
+   File tree should be look like
+- **project-root/**
+   - `moveFrameFiles.py`
+   - `file_list.txt`
+   - **movie1K.keyframes.240p.v1/**
+     - **240p/**   
+   - **dataset/**
+     - **framescene/**
+   - **Other Files ...**
 
