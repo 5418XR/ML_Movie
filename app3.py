@@ -1,5 +1,12 @@
-from dotenv import load_dotenv
+import openai
+import os
 import streamlit as st
+from dotenv import load_dotenv, find_dotenv
+
+from dotenv import load_dotenv, find_dotenv
+_ = load_dotenv(find_dotenv()) # read local .env file
+from dotenv import load_dotenv
+# import streamlit as st
 from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -29,8 +36,11 @@ from langchain.chains.summarize import load_summarize_chain
 from langchain.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.llms import OpenAI
-import os
 
+from pdfminer.high_level import extract_text
+import webbrowser
+import os
+openai.api_key  = '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'
 PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY', 'bacc7a5f-0b08-4aae-8695-6fa9e0f458a9')
 PINECONE_API_ENV = os.environ.get('PINECONE_API_ENV', 'us-west1-gcp-free')
 def main():
@@ -48,45 +58,6 @@ def main():
 ]
 
     print(names[0])
-    # load_dotenv()
-    # st.set_page_config(page_title="Ask your PDF")
-    # st.header("Ask your PDF 💬")
-    
-    # # upload file
-    # pdf = st.file_uploader("Upload your PDF", type="pdf")
-    
-    # # extract the text
-    # if pdf is not None:
-    #   pdf_reader = PdfReader(pdf)
-    #   text = ""
-    #   for page in pdf_reader.pages:
-    #     text += page.extract_text()
-        
-    #   # split into chunks
-    #   text_splitter = CharacterTextSplitter(
-    #     separator="\n",
-    #     chunk_size=1000,
-    #     chunk_overlap=200,
-    #     length_function=len
-    #   )
-    #   chunks = text_splitter.split_text(text)
-      
-    #   # create embeddings
-    #   embeddings = OpenAIEmbeddings()
-    #   knowledge_base = FAISS.from_texts(chunks, embeddings)
-      
-    #   # show user input
-    #   user_question = st.text_input("Give me a response when I am a high school student with absolutely no hardware knowledge.")
-    #   if user_question:
-    #     docs = knowledge_base.similarity_search(user_question)
-        
-    #     llm = OpenAI()
-    #     chain = load_qa_chain(llm, chain_type="stuff")
-    #     with get_openai_callback() as cb:
-    #       response = chain.run(input_documents=docs, question=user_question)
-    #       print(cb)
-           
-    #     st.write(response)
     pinecone.init(
     api_key=PINECONE_API_KEY,  # find at app.pinecone.io
     environment=PINECONE_API_ENV  # next to api key in console
@@ -141,55 +112,22 @@ def main():
         # docs2 = docsearch.similarity_search(user_question)
         # docs2 = []
 #/////////////////////////////////////////////////////////////////////////////////////////////////
-        docsearch1 = Pinecone.from_existing_index(index_name, embeddings,namespace=names[1])
-        docsearch3 = Pinecone.from_existing_index(index_name, embeddings,namespace=names[3])
-        docsearch4 = Pinecone.from_existing_index(index_name, embeddings,namespace=names[4])
-        docsearch7 = Pinecone.from_existing_index(index_name, embeddings,namespace=names[7])
-        docsearch8 = Pinecone.from_existing_index(index_name, embeddings,namespace=names[8])
-        docsearch9 = Pinecone.from_existing_index(index_name, embeddings,namespace=names[9])
+        docsearch1 = Pinecone.from_existing_index(index_name, embeddings,namespace="TT")
+        # docsearch3 = Pinecone.from_existing_index(index_name, embeddings,namespace=names[3])
+        # docsearch4 = Pinecone.from_existing_index(index_name, embeddings,namespace=names[4])
+        # docsearch7 = Pinecone.from_existing_index(index_name, embeddings,namespace=names[7])
+        # docsearch8 = Pinecone.from_existing_index(index_name, embeddings,namespace=names[8])
+        # docsearch9 = Pinecone.from_existing_index(index_name, embeddings,namespace=names[9])
 
-        tempanwer1 = docsearch1.similarity_search(user_question,k=4)
-        tempanwer3 = docsearch3.similarity_search(user_question,k=4)
-        tempanwer4 = docsearch4.similarity_search(user_question,k=4)
-        tempanwer7 = docsearch7.similarity_search(user_question,k=4)
-        tempanwer8 = docsearch8.similarity_search(user_question,k=4)
-        tempanwer9 = docsearch9.similarity_search(user_question,k=4)
+        tempanwer1 = docsearch1.similarity_search(user_question,k=10)
+        # tempanwer3 = docsearch3.similarity_search(user_question,k=4)
+        # tempanwer4 = docsearch4.similarity_search(user_question,k=4)
+        # tempanwer7 = docsearch7.similarity_search(user_question,k=4)
+        # tempanwer8 = docsearch8.similarity_search(user_question,k=4)
+        # tempanwer9 = docsearch9.similarity_search(user_question,k=4)
 
         docs = knowledge_base.similarity_search(user_question) if knowledge_base else []
 
-
-
-#//////////////////////////////////////////////////
-
-    #     refine_prompt_template = (
-    # "The original question is as follows: {question}\n"
-    # "We have provided an existing answer: {existing_answer}\n"mka
-    # "We have the opportunity to refine the existing answer"
-    # "(only if needed) with some more context below.\n"
-    # "------------\n"
-    # "{context_str}\n"
-    # "------------\n"
-    # "Given the new context, refine the original answer to better "
-    # "answer the question. "
-    # "If the context isn't useful, return the original answer. Reply in English."
-    #   )
-    #     refine_prompt = PromptTemplate(
-    #     input_variables=["question", "existing_answer", "context_str"],
-    #     template=refine_prompt_template,
-    #   )
-
-
-    #     initial_qa_template = (
-    #     "Context information is below. \n"
-    #     "---------------------\n"
-    #     "{context_str}"
-    #     "\n---------------------\n"
-    #     "Given the context information and not prior knowledge, "
-    #     "answer the question: {question}\nYour answer should be in English.\n"
-    #   )
-    #     initial_qa_prompt = PromptTemplate(
-    #     input_variables=["context_str", "question"], template=initial_qa_template
-    #   )
         output_parser = RegexParser(
           regex=r"(.*?)\nScore: (.*)",
           output_keys=["answer", "score"],
@@ -218,53 +156,29 @@ def main():
 #///////////////////////////////////////////////////
 
         llm = OpenAI()
-        # chain = load_qa_chain(OpenAI(temperature=0), chain_type="refine", return_refine_steps=True,
-        #              question_prompt=initial_qa_prompt, refine_prompt=refine_prompt)
 
         chain = load_qa_chain(OpenAI(temperature=0), chain_type="map_rerank",verbose=True, return_intermediate_steps=True)
-
-        # print(docs2)
-        # print(docs)
-        # input_variables= ["comument1:"+docs, "comument2:"+docs2]
-        # input_variables= ["comument1:" + " ".join(docs), "comument2:" + " ".join(docs2)]
-        # input_variables= ["comument1:" + " ".join(doc.content for doc in docs), "comument2:" + " ".join(doc.content for doc in docs2)]
-        # prompt = PromptTemplate(
-        # input_variables=["docs", "docs2"],
-        # template="The document answer the question {docs} and {docs2}",
-        # )
-        # # documents = [Document(page_content=text) for text in prompt]
         with get_openai_callback() as cb:
-            # response = chain.run(input_documents=docs, question=user_question)
-            # response = chain.run(input_documents=docs2, question=user_question)
-            #print(docs2)
-            response1=chain({"input_documents": tempanwer1, "question": user_question}, return_only_outputs=True)
-            response3=chain({"input_documents": tempanwer3, "question": user_question}, return_only_outputs=True)
-            response4=chain({"input_documents": tempanwer4, "question": user_question}, return_only_outputs=True)
-            response7=chain({"input_documents": tempanwer7, "question": user_question}, return_only_outputs=True)
-            response8=chain({"input_documents": tempanwer8, "question": user_question}, return_only_outputs=True)
-            response9=chain({"input_documents": tempanwer9, "question": user_question}, return_only_outputs=True)
-            # print(response1)
-            # print(cb)
-            # print(tempanwer1)
 
-        #text = '\n'.join(doc.page_content for doc in docs2)
-        # Open the file with write permission
-        # with open("output.txt", "w",encoding='utf-8') as file:
-          # Write the text to the file
-          # file.write(text)
+            response1=chain({"input_documents": tempanwer1, "question": user_question}, return_only_outputs=True)
+            # response3=chain({"input_documents": tempanwer3, "question": user_question}, return_only_outputs=True)
+            # response4=chain({"input_documents": tempanwer4, "question": user_question}, return_only_outputs=True)
+            # response7=chain({"input_documents": tempanwer7, "question": user_question}, return_only_outputs=True)
+            # response8=chain({"input_documents": tempanwer8, "question": user_question}, return_only_outputs=True)
+            # response9=chain({"input_documents": tempanwer9, "question": user_question}, return_only_outputs=True)
 
         st.write(names[1])
         st.write(response1)
-        st.write(names[3])
-        st.write(response3)
-        st.write(names[4])
-        st.write(response4)
-        st.write(names[7])
-        st.write(response7)
-        st.write(names[8])
-        st.write(response8)
-        st.write(names[9])
-        st.write(response9)
+        # st.write(names[3])
+        # st.write(response3)
+        # st.write(names[4])
+        # st.write(response4)
+        # st.write(names[7])
+        # st.write(response7)
+        # st.write(names[8])
+        # st.write(response8)
+        # st.write(names[9])
+        # st.write(response9)
     
 
 if __name__ == '__main__':
