@@ -16,10 +16,11 @@
    ```
 ## Data set
 
-Download the data set from [Here](https://drive.google.com/file/d/1p6k1rW6XU-oR11LlKOBjqoiy44NmxKbg/view?usp=drive_link).
-This data set is from [MovieNet](https://movienet.github.io/).
+Download the scripts, subtitles, and metadata from [Here](https://drive.google.com/file/d/1p6k1rW6XU-oR11LlKOBjqoiy44NmxKbg/view?usp=drive_link).
 
 This zip file contains scripts (with .script extension), subtitles (with .srt extension), and metadata (in .json format) that all correspond to the same film titles. It also includes a list of films in a text file.
+
+Because of the size of film frame scenes, you have to download it from [MovieNet](https://movienet.github.io/).
 
 ### Set-up for frame scene data
 
