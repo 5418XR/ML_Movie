@@ -16,8 +16,8 @@
    ```
 ## Data set
 
-We use data from [MovieNet](https://movienet.github.io/).
-or you can download it from [Here](https://drive.google.com/file/d/1p6k1rW6XU-oR11LlKOBjqoiy44NmxKbg/view?usp=drive_link). 
+Download the data set from [Here](https://drive.google.com/file/d/1p6k1rW6XU-oR11LlKOBjqoiy44NmxKbg/view?usp=drive_link).
+This data set is from [MovieNet](https://movienet.github.io/).
 
 This zip file contains scripts (with .script extension), subtitles (with .srt extension), and metadata (in .json format) that all correspond to the same film titles. It also includes a list of films in a text file.
 
