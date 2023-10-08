@@ -119,7 +119,7 @@ def main():
         # docsearch8 = Pinecone.from_existing_index(index_name, embeddings,namespace=names[8])
         # docsearch9 = Pinecone.from_existing_index(index_name, embeddings,namespace=names[9])
 
-        tempanwer1 = docsearch1.similarity_search(user_question,k=10)
+        tempanwer1 = docsearch1.similarity_search(user_question,k=4)
         # tempanwer3 = docsearch3.similarity_search(user_question,k=4)
         # tempanwer4 = docsearch4.similarity_search(user_question,k=4)
         # tempanwer7 = docsearch7.similarity_search(user_question,k=4)
