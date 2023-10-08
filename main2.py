@@ -1,7 +1,7 @@
 import os
 
 # 设置环境变量
-os.environ['REPLICATE_API_TOKEN'] = 'add your API key here'
+os.environ['REPLICATE_API_TOKEN'] = 'r8_1A35GtXoQA1xr0TKI3QgM44UMzIygMJ2DD8tQ'
 
 
 
@@ -9,7 +9,7 @@ import replicate
 
 # Get the path to the image from the user
 # image_path = input("Please enter the path to your image: ")
-image_path = "shot_0018_img_1.jpg"
+image_path = "shot_0123_img_2.jpg"
 # image_path ="C:\hackson\img\20230916153436.png"
 # Use "The environment you're in" as the beginning of the model prompt and get the continuation
 # prompt_extension = input("Enter the continuation for the prompt 'The environment you're in...': ")
