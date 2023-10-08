@@ -1,5 +1,5 @@
 # ML_Movie
-### Installation & Setup
+## Installation & Setup
 
 1. Clone the repository using git or GitHub.
 2. Navigate to the project directory and install the dependencies:
@@ -14,3 +14,27 @@
    ```bash
    python main2.py
    ```
+## Data set
+
+We use data from [MovieNet](https://movienet.github.io/).
+or you can download it from [Here](https://drive.google.com/file/d/1p6k1rW6XU-oR11LlKOBjqoiy44NmxKbg/view?usp=drive_link). 
+
+This zip file contains scripts (with .script extension), subtitles (with .srt extension), and metadata (in .json format) that all correspond to the same film titles. It also includes a list of films in a text file.
+
+### Set-up for frame scene data
+
+1. Change directory to where you have the below directory.
+   ```
+   movie1K.keyframes.240p.v1
+   ```
+2. Run the python code `moveFrameFiles.py`
+   ```
+   python ./moveFrameFiles.py
+   ```
+3. Merge with other datasets from the above link.
+- **dataset/**
+  - **framescene/**
+  - **meta/**
+  - **scripts/**
+  - **subtitles/**
+
