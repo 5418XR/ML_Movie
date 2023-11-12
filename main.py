@@ -44,53 +44,67 @@
 # print(response.choices[0].message['content'])
 
 
-import base64
-import requests
+# import base64
+# import requests
 
-# OpenAI API Key
-api_key = "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"
+# # OpenAI API Key
+# api_key = "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"
 
-# Function to encode the image
-def encode_image(image_path):
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
+# # Function to encode the image
+# def encode_image(image_path):
+#     with open(image_path, "rb") as image_file:
+#         return base64.b64encode(image_file.read()).decode('utf-8')
 
-# Path to your image
-image_path = "C:\ml2\ML_Movie\keyframes1\keyframe_1_0150.png"
+# # Path to your image
+# image_path = "C:\ml2\ML_Movie\keyframes1\keyframe_1_0150.png"
 
-# Getting the base64 string
-base64_image = encode_image(image_path)
+# # Getting the base64 string
+# base64_image = encode_image(image_path)
 
-headers = {
-    "Content-Type": "application/json",
-    "Authorization": f"Bearer {api_key}"
-}
+# headers = {
+#     "Content-Type": "application/json",
+#     "Authorization": f"Bearer {api_key}"
+# }
 
-payload = {
-    "model": "gpt-4-vision-preview",
-    "messages": [
-      {
-        "role": "user",
-        "content": [
-          {
-            "type": "text",
-            "text": "What’s in this image?"
-          },
-          {
-            "type": "image_url",
-            "image_url": {
-              "url": f"data:image/jpeg;base64,{base64_image}"
-            }
-          }
-        ]
-      }
-    ],
-    "max_tokens": 300
-}
+# payload = {
+#     "model": "gpt-4-vision-preview",
+#     "messages": [
+#       {
+#         "role": "user",
+#         "content": [
+#           {
+#             "type": "text",
+#             "text": f"In this keyframe from the movie 'Titanic', based on the subtitle content '13m', what is the spatial relationship between the characters and between the characters and their environment? Describe how they interact with each other in space and how this relates to the dialog or narration in the credits. If there are no characters what are the main visual elements of this screenshot? Please analyze how these elements work together to convey content related to a specific scene or emotion in the film. Which elements are located in the foreground and which in the background in this particular scene? How does this layout enhance or reflect a particular plot point in the movie?"
+#           },
+#           {
+#             "type": "image_url",
+#             "image_url": {
+#               "url": f"data:image/jpeg;base64,{base64_image}"
+#             }
+#           }
+#         ]
+#       }
+#     ],
+#     "max_tokens": 1000
+# }
 
-response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+# response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
 
-print(response.json())
+# # Check if response is successful
+# if response.status_code == 200:
+#     response_data = response.json()
+#     # Assuming the response data structure contains 'choices'
+#     if 'choices' in response_data:
+#         for choice in response_data['choices']:
+#             # Assuming each choice contains 'message' with 'content'
+#             if 'message' in choice and 'content' in choice['message']:
+#                 print(choice['message']['content'])
+#             else:
+#                 print("No content found in choice")
+#     else:
+#         print("No choices found in response")
+# else:
+#     print(f"Error: {response.status_code} - {response.text}")
 
 
 # import base64
@@ -298,61 +312,94 @@ print(response.json())
 
 # print(f"Analysis complete. Results saved to {results_file}")
 
-# import re
-# import os
-# import base64
-# import openai
-# from openai import OpenAI
+import re
+import os
+import base64
+import requests  # Import the requests library
 
-# def format_time_for_filename(time_str):
-#     # 将时间格式从 "00:01:50,903" 转换为 "0150"
-#     return time_str[3:5] + time_str[6:8]
+def format_time_for_filename(time_str):
+    return time_str[3:5] + time_str[6:8]
 
-# def extract_subtitles(srt_file_path):
-#     with open(srt_file_path, 'r', encoding='utf-8') as file:
-#         content = file.read()
-#         pattern = re.compile(r'(\d+)\n(\d{2}:\d{2}:\d{2},\d{3}) --> \d{2}:\d{2}:\d{2},\d{3}\n([\s\S]+?)(?=\n\n|\Z)')
-#         return pattern.findall(content)
+def extract_subtitles(srt_file_path):
+    with open(srt_file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+        pattern = re.compile(r'(\d+)\n(\d{2}:\d{2}:\d{2},\d{3}) --> \d{2}:\d{2}:\d{2},\d{3}\n([\s\S]+?)(?=\n\n|\Z)')
+        return pattern.findall(content)
 
-# def encode_image(image_path):
-#     with open(image_path, "rb") as image_file:
-#         return base64.b64encode(image_file.read()).decode('utf-8')
+def encode_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode('utf-8')
 
-# # Load OpenAI API Key
-# api_key = "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"
+# Load OpenAI API Key
+api_key = "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"  # Replace with your actual API key
 
-# # Initialize OpenAI client
-# openai.api_key = api_key
+# Path to your SRT file
+srt_file_path = r"C:\ml2\ML_Movie\tt0120338.srt"
 
-# # Path to your SRT file
-# srt_file_path = r"C:\ml2\ML_Movie\tt0120338.srt"
+# Base path to your keyframes
+base_image_path = r"C:\ml2\ML_Movie\keyframes1"
 
-# # Base path to your keyframes
-# base_image_path = r"C:\ml2\ML_Movie\keyframes1"
+# Extract subtitles
+subtitles = extract_subtitles(srt_file_path)
 
-# # Extract subtitles
-# subtitles = extract_subtitles(srt_file_path)
+# File to save results
+results_file = "analysis_results.txt"
 
-# # 文件用于保存结果
-# results_file = "analysis_results.txt"
+# Define headers for the request
+headers = {
+    "Content-Type": "application/json",
+    "Authorization": f"Bearer {api_key}"
+}
 
-# with open(results_file, "w", encoding='utf-8') as file:
-#     for number, start_time, content in subtitles:
-#         formatted_start_time = format_time_for_filename(start_time)
-#         image_filename = f"keyframe_{number}_{formatted_start_time}.png"
-#         image_path = os.path.join(base_image_path, image_filename)
+with open(results_file, "w", encoding='utf-8') as file:
+    for number, start_time, content in subtitles:
+        formatted_start_time = format_time_for_filename(start_time)
+        image_filename = f"keyframe_{number}_{formatted_start_time}.png"
+        image_path = os.path.join(base_image_path, image_filename)
 
-#         if os.path.exists(image_path):
-#             base64_image = encode_image(image_path)
-#             response = openai.ChatCompletion.create(
-#                 model="gpt-4-vision-preview",
-#                 prompt=f"In this keyframe from the movie 'Titanic', based on the subtitle content '{content}', what is the spatial relationship between the characters and between the characters and their environment? Describe how they interact with each other in space and how this relates to the dialog or narration in the subtitles. If there are no characters what are the main visual elements of this screenshot? Please analyze how these elements work together to convey content related to a specific scene or emotion in the film. Which elements are located in the foreground and which in the background in this particular scene? How does this layout enhance or reflect a particular plot point in the movie? {base64_image}",
-#                 max_tokens=1000
-#             )
+        if os.path.exists(image_path):
+            base64_image = encode_image(image_path)
 
-#             # 将响应写入文件
-#             file.write(f"Keyframe {number}: {response.choices[0].text}\n\n")
-#         else:
-#             print(f"Image not found for keyframe {number}")
+            # Define the payload for the request
+            payload = {
+                "model": "gpt-4-vision-preview",
+                "messages": [
+                  {
+                    "role": "user",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": f"In this keyframe from the movie 'Titanic', based on the subtitle content '{content}', what is the spatial relationship between the characters and between the characters and their environment? Describe how they interact with each other in space and how this relates to the dialog or narration in the subtitles. If there are no characters what are the main visual elements of this screenshot? Please analyze how these elements work together to convey content related to a specific scene or emotion in the film. Which elements are located in the foreground and which in the background in this particular scene? How does this layout enhance or reflect a particular plot point in the movie?"
+                      },
+                      {
+                        "type": "image_url",
+                        "image_url": {
+                          "url": f"data:image/png;base64,{base64_image}"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max_tokens": 1000
+            }
 
-# print(f"Analysis complete. Results saved to {results_file}")
+            # Send the POST request to the OpenAI API
+            response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+
+            # Process the response
+            if response.status_code == 200:
+                response_data = response.json()
+                if 'choices' in response_data:
+                    for choice in response_data['choices']:
+                        if 'message' in choice and 'content' in choice['message']:
+                            file.write(f"Keyframe {number}: {choice['message']['content']}\n\n")
+                        else:
+                            print("No content found in choice")
+                else:
+                    print("No choices found in response")
+            else:
+                print(f"Error: {response.status_code} - {response.text}")
+        else:
+            print(f"Image not found for keyframe {number}")
+
+print(f"Analysis complete. Results saved to {results_file}")
