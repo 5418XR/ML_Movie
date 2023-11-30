@@ -316,6 +316,7 @@ import re
 import os
 import base64
 import requests  # Import the requests library
+from tqdm import tqdm  # Import the tqdm library
 
 def format_time_for_filename(time_str):
     return time_str[3:5] + time_str[6:8]
@@ -352,7 +353,8 @@ headers = {
 }
 
 with open(results_file, "w", encoding='utf-8') as file:
-    for number, start_time, content in subtitles:
+    # for number, start_time, content in subtitles:
+    for number, start_time, content in tqdm(subtitles, desc="Analyzing Subtitles"):
         formatted_start_time = format_time_for_filename(start_time)
         image_filename = f"keyframe_{number}_{formatted_start_time}.png"
         image_path = os.path.join(base_image_path, image_filename)
