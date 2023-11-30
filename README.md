@@ -13,7 +13,7 @@ Welcome to this GitHub repository! This project utilizes the latest GPT-4 model 
 
 ## Accessing Dataset and Models
 
-If you wish to access our dataset and the fine-tuned Stable Diffusion model, please visit our [Hugging Face repository](#). (Replace `#` with the actual URL to your Hugging Face repository)
+If you wish to access our dataset and the fine-tuned Stable Diffusion model, please visit our [Hugging Face repository](https://huggingface.co/xr5418/ml-testing/tree/main). (Replace `#` with the actual URL to your Hugging Face repository)
 
 ## Model Demonstrations
 
