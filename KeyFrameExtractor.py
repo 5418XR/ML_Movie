@@ -120,12 +120,16 @@ class KeyFrameExtractor:
 
     
     def match_FrameVtt(self, subtitles, real_frame_id, real_name, fps, FrameVtt):
-        realtime = real_frame_id / fps
+        realtime = float(real_frame_id / fps)
+        pre_tuple = subtitles[0]
         for tuple in subtitles:
-            if realtime > tuple[0]:
+            if realtime > tuple[0] and realtime < tuple[1]:
                 FrameVtt.append((real_name, tuple[2]))
-            subtitles.remove(tuple)
-
+                break
+            if pre_tuple and realtime > pre_tuple[1] and realtime < tuple[0]:
+                FrameVtt.append((real_name, tuple[2]))
+                break
+            pre_tuple = tuple
 
     def convert_to_seconds(self, time_str):
         seconds = 0
@@ -156,8 +160,9 @@ class KeyFrameExtractor:
 
         return subtitles
 
-# kfe = KeyFrameExtractor("c:\Current\CS4824_project_test\Movie\M3GAN.mkv", "c:\Current\CS4824_project_test\Movie\M3GAN.vtt", "./keyframe")
-kfe = KeyFrameExtractor("c:/Current/CS4824_project_test/Movie/Nobody.mkv", "c:/Current/CS4824_project_test/Movie/Nobody.vtt", "./keyframe")
-# kfe = KeyFrameExtractor("c:/Current/CS4824_project_test/Movie/M3GAN.mkv", "c:/Current/CS4824_project_test/Movie/M3GAN.vtt", "./keyframe")
+kfe = KeyFrameExtractor("c:/Current/CS4824_project_test/Movie/M3GAN_Part.mkv", "c:/Current/CS4824_project_test/Movie/M3GAN_Part.vtt", "./Keyframe")
+# kfe = KeyFrameExtractor("c:/Current/CS4824_project_test/Movie/M3GAN.mkv", "c:/Current/CS4824_project_test/Movie/M3GAN.vtt", "./Keyframe")
+# kfe = KeyFrameExtractor("c:/Current/CS4824_project_test/Movie/Nobody.mkv", "c:/Current/CS4824_project_test/Movie/Nobody.vtt", "./Keyframe")
+# kfe = KeyFrameExtractor("c:/Current/CS4824_project_test/Movie/Spirited.mkv", "c:/Current/CS4824_project_test/Movie/Spirited.vtt", "./Keyframe")
 
-# kfe.extract_keyframe()
+kfe.extract_keyframe()
